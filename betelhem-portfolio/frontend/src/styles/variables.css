@@ -1,0 +1,59 @@
+/* =========================================================
+   CSS Custom Properties — Design Tokens
+   Dark mode is the default; light mode overrides on [data-theme="light"]
+   ========================================================= */
+
+:root,
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg:          #0d1b2e;
+  --bg-card:     #172337;
+  --bg-nav:      rgba(13, 27, 46, 0.92);
+  --bg-input:    #1e304a;
+
+  /* Brand */
+  --accent:      #1f5fa8;
+  --accent-light:#4a90d9;
+  --accent-glow: rgba(31, 95, 168, 0.25);
+
+  /* Text */
+  --text:        #f0ece0;
+  --text-muted:  #9aadc4;
+  --text-heading:#ffffff;
+
+  /* Borders */
+  --border:      rgba(74, 144, 217, 0.18);
+  --border-card: rgba(74, 144, 217, 0.12);
+
+  /* Shadows */
+  --shadow-sm:   0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md:   0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg:   0 8px 48px rgba(0,0,0,0.5);
+
+  /* Misc */
+  --radius:      12px;
+  --radius-sm:   8px;
+  --transition:  0.25s ease;
+}
+
+[data-theme="light"] {
+  --bg:          #f8f9fc;
+  --bg-card:     #ffffff;
+  --bg-nav:      rgba(248, 249, 252, 0.92);
+  --bg-input:    #f0f4f8;
+
+  --accent:      #1f5fa8;
+  --accent-light:#2d7dd2;
+  --accent-glow: rgba(31, 95, 168, 0.12);
+
+  --text:        #1a2535;
+  --text-muted:  #5a6a7e;
+  --text-heading:#0d1b2e;
+
+  --border:      rgba(31, 95, 168, 0.15);
+  --border-card: rgba(31, 95, 168, 0.10);
+
+  --shadow-sm:   0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md:   0 4px 24px rgba(0,0,0,0.10);
+  --shadow-lg:   0 8px 48px rgba(0,0,0,0.12);
+}

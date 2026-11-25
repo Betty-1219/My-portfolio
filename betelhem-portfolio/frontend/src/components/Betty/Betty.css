@@ -1,0 +1,363 @@
+/* =========================================================
+   Betty — Floating AI Chat Assistant
+   ========================================================= */
+
+/* ── Floating action button ───────────────────────────────── */
+.betty-fab {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  z-index: 2000;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(31, 95, 168, 0.5);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  /* Subtle pulse to draw attention */
+  animation: betty-pulse 3s ease-in-out infinite;
+}
+.betty-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(31, 95, 168, 0.7);
+  animation: none;
+}
+
+@keyframes betty-pulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(31, 95, 168, 0.5); }
+  50%       { box-shadow: 0 4px 32px rgba(31, 95, 168, 0.85); }
+}
+
+.betty-fab__badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ef5350;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--bg);
+}
+
+/* ── Chat panel ───────────────────────────────────────────── */
+.betty-panel {
+  position: fixed;
+  bottom: calc(1.75rem + 58px + 0.75rem);
+  right: 1.75rem;
+  z-index: 1999;
+  width: 360px;
+  max-height: 540px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  /* Hidden state */
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  overflow: hidden;
+}
+.betty-panel--open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.betty-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem;
+  background: linear-gradient(135deg, var(--accent) 0%, #2d7dd2 100%);
+  border-radius: 20px 20px 0 0;
+  flex-shrink: 0;
+}
+
+.betty-header__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #fff;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.betty-header__online {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  background: #4caf50;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+}
+
+.betty-header__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.betty-header__name {
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+.betty-header__status {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+.betty-header__close {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.betty-header__close:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* ── Messages area ────────────────────────────────────────── */
+.betty-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar */
+.betty-messages::-webkit-scrollbar { width: 4px; }
+.betty-messages::-webkit-scrollbar-track { background: transparent; }
+.betty-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ── Message bubbles ──────────────────────────────────────── */
+.betty-msg {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  max-width: 100%;
+}
+
+.betty-msg--user {
+  flex-direction: row-reverse;
+}
+
+.betty-msg__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.betty-msg__bubble {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-width: 76%;
+}
+
+.betty-msg--betty .betty-msg__bubble {
+  align-items: flex-start;
+}
+.betty-msg--user .betty-msg__bubble {
+  align-items: flex-end;
+}
+
+.betty-msg__text {
+  padding: 0.65rem 0.9rem;
+  border-radius: 16px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.betty-msg--betty .betty-msg__text {
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 4px 16px 16px 16px;
+  border: 1px solid var(--border-card);
+}
+
+.betty-msg--user .betty-msg__text {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+  color: #fff;
+  border-radius: 16px 4px 16px 16px;
+}
+
+/* links inside betty messages */
+.betty-msg--betty .betty-msg__text a {
+  color: var(--accent-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.betty-msg--betty .betty-msg__text a:hover {
+  color: var(--accent);
+}
+
+.betty-msg__time {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  padding: 0 0.25rem;
+}
+
+/* ── Typing dots ──────────────────────────────────────────── */
+.betty-typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.65rem 0.9rem;
+  height: 36px;
+}
+.betty-typing span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: betty-dot 1.2s ease-in-out infinite;
+}
+.betty-typing span:nth-child(2) { animation-delay: 0.2s; }
+.betty-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes betty-dot {
+  0%, 60%, 100% { transform: translateY(0);    opacity: 0.4; }
+  30%            { transform: translateY(-6px); opacity: 1;   }
+}
+
+/* ── Suggested questions ──────────────────────────────────── */
+.betty-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0 1rem 0.75rem;
+  flex-shrink: 0;
+}
+.betty-suggestion {
+  background: var(--accent-glow);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--accent-light);
+  font-size: 0.75rem;
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, border-color 0.2s;
+  text-align: left;
+}
+.betty-suggestion:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* ── Input row ────────────────────────────────────────────── */
+.betty-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border-card);
+  flex-shrink: 0;
+}
+
+.betty-input {
+  flex: 1;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.betty-input::placeholder {
+  color: var(--text-muted);
+}
+.betty-input:focus {
+  border-color: var(--accent-light);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.betty-send {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.15s;
+}
+.betty-send:hover:not(:disabled) {
+  background: var(--accent-light);
+  transform: scale(1.08);
+}
+.betty-send:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ── Mobile adjustments ───────────────────────────────────── */
+@media (max-width: 480px) {
+  .betty-panel {
+    right: 0.75rem;
+    left: 0.75rem;
+    width: auto;
+    bottom: calc(1.25rem + 58px + 0.5rem);
+    max-height: 70vh;
+    border-radius: 16px;
+  }
+  .betty-fab {
+    right: 1rem;
+    bottom: 1rem;
+  }
+}

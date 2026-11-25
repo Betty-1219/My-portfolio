@@ -1,0 +1,77 @@
+.skills__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.skills__category {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skills__category-name {
+  font-size: 1rem;
+  color: var(--accent-light);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-card);
+  padding-bottom: 0.5rem;
+}
+
+.skills__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.skills__item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.3rem;
+}
+
+.skills__item-name {
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.skills__item-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+.skills__bar-track {
+  height: 6px;
+  background: var(--bg);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.skills__bar-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  border-radius: 999px;
+  /* Animate to the CSS variable --target when .visible is on a parent */
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Trigger the animation once the section is visible */
+.skills__category.visible .skills__bar-fill,
+.reveal.visible .skills__bar-fill {
+  width: var(--target, 0%);
+}
+
+.skills__note {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: 2.5rem;
+  font-style: italic;
+}
